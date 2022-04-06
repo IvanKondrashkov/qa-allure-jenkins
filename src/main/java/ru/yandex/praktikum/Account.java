@@ -6,23 +6,16 @@ public class Account {
     private final String name;
 
     public Account(String name) {
-        this.name = name;
-        addAttachment();
-    }
-
-    private void addAttachment() {
-        Allure.addAttachment("name : ", name);
+        this.name = name != null ? name : "null";
+        Allure.addAttachment("name : ", this.name);
     }
 
     public boolean checkNameToEmboss() {
-        boolean isFlag = false;
-        long count = name.chars().filter(Character::isWhitespace).count();
-
-        if (!name.startsWith(" ") && !name.endsWith(" ") && count == 1) {
-            if (name.length() >= 3 && name.length() <= 19) {
-                isFlag = true;
-            }
+        if (name.isBlank()) {
+            return false;
+        } else if (name.matches("(?=.{3,19}$)[a-zA-Zа-яА-ЯёЁ]+\\s[a-zA-Zа-яА-ЯёЁ]+")) {
+            return true;
         }
-        return isFlag;
+        return false;
     }
 }
