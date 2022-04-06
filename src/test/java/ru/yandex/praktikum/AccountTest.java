@@ -1,9 +1,11 @@
 package ru.yandex.praktikum;
 
+import org.junit.Rule;
 import org.junit.Test;
 import io.qameta.allure.Epic;
 import org.junit.runner.RunWith;
 import io.qameta.allure.junit4.DisplayName;
+import org.junit.rules.ExpectedException;
 import org.junit.runners.Parameterized;
 import static org.junit.Assert.*;
 
@@ -12,6 +14,8 @@ import static org.junit.Assert.*;
 public class AccountTest {
     private final String name;
     private final boolean expected;
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     public AccountTest(String name, boolean expected) {
         this.name = name;
@@ -38,9 +42,15 @@ public class AccountTest {
     }
 
     @Test
-    @DisplayName("Create account test-case")
+    @DisplayName("Check account name card")
     public void checkNameToEmboss() {
-        Account account = new Account(name);
+        Account account;
+        if (name == null) {
+            expectedException.expect(NullPointerException.class);
+            account = new Account(name);
+        } else {
+            account = new Account(name);
+        }
 
         assertEquals(expected, account.checkNameToEmboss());
     }

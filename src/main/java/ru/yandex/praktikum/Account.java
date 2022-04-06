@@ -6,12 +6,12 @@ public class Account {
     private final String name;
 
     public Account(String name) {
-        this.name = name != null ? name : "null";
-        Allure.addAttachment("name : ", this.name);
+        this.name = name;
+        Allure.addAttachment("name : ", name);
     }
 
     public boolean checkNameToEmboss() {
-        if (name.isBlank()) {
+        if (name == null) {
             return false;
         } else if (name.matches("(?=.{3,19}$)[a-zA-Zа-яА-ЯёЁ]+\\s[a-zA-Zа-яА-ЯёЁ]+")) {
             return true;
